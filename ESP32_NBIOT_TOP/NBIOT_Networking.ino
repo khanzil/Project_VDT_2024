@@ -43,6 +43,48 @@ bool init_nbmod() {
             delay(1000);
             continue;
         }
+        else break;
     }
+    if (respond_code != AT_RESP_OK) {
+        Serial.println("Module unavailable");
+        nbModStatus = false;
+        return false;
+    }
+
+    // Report signal quality
+  for (i = 0; i < 5; i++) {
+    respond_code = send_atcmd("AT+CSQ", "OK", 2000);
+    if(respond_code != AT_RESP_OK){
+      delay(1000);
+      continue;
+    }
+    else break;      
+  }  
+  if(respond_code != AT_RESP_OK){
+    Serial.println("Cmd AT_CSQ error");
+    return false;
+  }      
+
+  // add more command below here i forgor
 }
 
+void init_mqtt() {
+char respond_code;
+    int i; // generic index name
+    nbModStatus = false;
+
+    // check module status. max tries = 5
+    for (i = 0; i < 5; i++) {
+        respond_code = send_atcmd("AT", "OK", 2000);
+        if (respond_code != AT_RESP_OK) {
+            delay(1000);
+            continue;
+        }
+        else break;
+    }
+    if (respond_code != AT_RESP_OK) {
+        Serial.println("Module unavailable");
+        nbModStatus = false;
+        return false;
+    }
+}
