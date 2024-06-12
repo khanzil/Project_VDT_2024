@@ -1,3 +1,4 @@
+#include "sensors_config.h"
 // NB-IOT Module interface (UART)
 #define RXD 17 // PH
 #define TXD 16 // PH
@@ -31,6 +32,7 @@ String data_payload = "{\"temperature\": 25}";
 unsigned long tb_send_timming;
 bool tb_data_valid = false;
 
-
+// sensors
+float lux, temp, hum;
 
 

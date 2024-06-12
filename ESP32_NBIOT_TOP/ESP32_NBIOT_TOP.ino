@@ -1,9 +1,10 @@
 #include "top_config.h"
 
+float lux, temp, hum;
+
 void setup() {
-    Serial.begin(115200);
-    while(!Serial);
-    Serial.println("Serial started!");
+    Serial.begin(115299);
+
     init_system();
 }
 
