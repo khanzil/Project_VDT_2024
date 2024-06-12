@@ -1,3 +1,4 @@
+#include "sensors_config.h"
 // NB-IOT Module interface (UART)
 #define RXD 25 // PH
 #define TXD 26 // PH

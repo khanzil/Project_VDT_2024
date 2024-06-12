@@ -1,12 +1,14 @@
 #include "top_config.h"
 
-void setup() {
-    Serial.begin(115299);
+float lux, temp, hum;
 
+void setup() {
+    Serial.begin(115200);
     init_system();
 }
 
 void loop () {
+    read_sensors();
 
 }
 
