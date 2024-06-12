@@ -10,7 +10,7 @@ HardwareSerial Nbmod(2);
 bool nbModStatus = false;
 bool MQTTStatus = false;
 
-uint8_t comm_buff[100];      // buffer array for data receive over serial port
+uint8_t comm_buff[512];      // buffer array for data receive over serial port
 unsigned int rx_len = 0;    // counter for buffer array   
 unsigned long prev_time;
 uint8_t atResponse;
@@ -22,17 +22,15 @@ enum at_resp_enum {
 };
 
 // Thingsboard (TB or tb) stuffs
-#define TB_DEVICE_KEY = "";
+String TB_DEVICE_KEY = "t6467N4PZ1Qgy6TJ4Vhu";
 #define TB_DURATION 10000 
 
-String tbServer = "demo.thingsboard.io";
+String tbServer = "mqtt.thingsboard.cloud";
 String tbPort = "1883";
-String data_payload = "{\"temperature\": 25}";
+String data_payload = "";
 
 unsigned long tb_send_timming;
 bool tb_data_valid = false;
 
-// sensors
-float lux, temp, hum;
 
 

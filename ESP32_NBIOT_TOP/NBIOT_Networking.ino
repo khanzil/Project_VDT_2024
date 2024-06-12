@@ -1,7 +1,7 @@
 char send_atcmd (const char* ATcmd, const char* expectResp, unsigned int timeout) {
-    // digitalWrite(PWR, LOW);
-    // delay(8);
-    // digitalWrite(PWR, HIGH);
+    digitalWrite(PWR, LOW);
+    delay(300);
+    digitalWrite(PWR, HIGH);
     
     atResponse = AT_RESP_NONE;
     rx_len = 0;
@@ -48,8 +48,7 @@ char send_atcmd (const char* ATcmd, const char* expectResp, unsigned int timeout
     }
     for(int i =0; i<rx_len; i++)
       Serial.printf("%c", comm_buff[i]);
-      
-    Serial.println(rx_len);
+    Serial.println("");
 #endif
     return atResponse;
 }
@@ -93,15 +92,14 @@ bool init_nbmod() {
   int start_time = millis();
   do {
     respond_code = send_atcmd("AT+CEREG?", "CEREG: 0,1", 2000);
-    if (millis() - start_time > 60000){
-      Serial.println("Wating for module to establish connection...");
-      send_atcmd("AT+CPOWD=1", "", 2000);
-      delay(10000);
-      digitalWrite(PWR, LOW);
-      delay(8);
-      digitalWrite(PWR, HIGH);      
-      while(1);
-    }
+    // if (millis() - start_time > 60000){
+    //   Serial.println("Wating for module to establish connection...");
+    //   send_atcmd("AT+CPOWD=1", "", 2000);
+    //   delay(10000);
+    //   digitalWrite(PWR, LOW);
+    //   delay(8);
+    //   digitalWrite(PWR, HIGH);
+    // }
   }
   while(respond_code != AT_RESP_OK);
 
@@ -121,11 +119,11 @@ bool init_mqtt() {
 
     // connect to mqtt server
     String at_newmqtt = "AT+CMQNEW=\"" + tbServer + "\"," + "\"" + tbPort + "\"," + "10000,1024";
-    Serial.println(at_newmqtt);
+    // Serial.println(at_newmqtt);
     for (i = 0; i < 5; i++) {
-      respond_code = send_atcmd(at_newmqtt, "+CMQNEW:0", 2000);
+      respond_code = send_atcmd(at_newmqtt.c_str(), "OK", 2000);
       if (respond_code != AT_RESP_OK) {
-          delay(1000);
+          delay(5000);
           continue;
       }
       else break;
@@ -135,12 +133,12 @@ bool init_mqtt() {
       return false;
     }  
 
-    String at_conmqtt = "AT+CMQCON=0,3,\"espnbclient\",600,1,0\"" + TB_DEVICE_KEY + "\",NULL";
-    Serial.println(at_conmqtt);
+    String at_conmqtt = "AT+CMQCON=0,3,\"espnbclient\",600,1,0,\"" + TB_DEVICE_KEY + "\",NULL";
+    // Serial.println(at_conmqtt);
     for (i = 0; i < 5; i++) {
-      respond_code = send_atcmd(at_conmqtt, "OK", 2000);
+      respond_code = send_atcmd(at_conmqtt.c_str(), "OK", 2000);
       if (respond_code != AT_RESP_OK) {
-          delay(1000);
+          delay(5000);
           continue;
       }
       else break;
@@ -155,24 +153,25 @@ bool init_mqtt() {
 
 void send_data_to_tb(char* topic, int time_out){
   // check for connection
-  respond_code = send_atcmd("AT+CMQCOM?", tbServer.toCharArray(), 2000);
+  char respond_code = AT_RESP_ERR;
+  respond_code = send_atcmd("AT+CMQCON?", tbServer.c_str(), 2000);
   if (respond_code != AT_RESP_OK) {
         delay(1000);
         init_mqtt();
     }
 
   // send
-  String at_pubmsg = "AT+CMQPUB=0,\"" + String(topic) + "\",1,0,0," + data_payload.length().toString + "," + data_payload;
-  Serial.println(at_pubmsg);
-  for (i = 0; i < 5; i++) {
-    respond_code = send_atcmd(at_pubmsg, "OK", 2000);
+  String at_pubmsg = "AT+CMQPUB=0,\"" + String(topic) + "\",1,0,0," + String(data_payload.length()-6) + ",\"" + data_payload + "\"";
+  // Serial.println(at_pubmsg);
+  for (int i = 0; i < 5; i++) {
+    respond_code = send_atcmd(at_pubmsg.c_str(), "OK", 2000);
     if (respond_code != AT_RESP_OK) {
-        delay(1000);
+        delay(5000);
         continue;
     }
     else break;
   }
-  at_pubmsg = "";
+  data_payload = "";
   if (respond_code != AT_RESP_OK) {
     Serial.println("Failed to send msg!");
   }

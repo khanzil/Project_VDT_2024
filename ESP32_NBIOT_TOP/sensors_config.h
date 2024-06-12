@@ -13,9 +13,9 @@
 BH1750 lightMeter(0x23);
 DHT dht(DHTPIN, DHTTYPE);
 
-extern float lux;
-extern float hum;
-extern float temp;
+float lux;
+float hum;
+float temp;
 
 void read_data(void);
 void sensor_init(void);
