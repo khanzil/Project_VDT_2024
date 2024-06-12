@@ -91,12 +91,8 @@ bool init_nbmod() {
   }
 
   for (i = 0; i < 5; i++) {
-    respond_code = send_atcmd("AT+CEREG?", "CEREG:", 2000);
+    respond_code = send_atcmd("AT+CEREG?", "CEREG: 0,1", 2000);
     if(respond_code != AT_RESP_OK){
-      delay(1000);
-      continue;
-    }
-    else if (strstr((char*) comm_buff, "0,2")){
       delay(1000);
       continue;
     }
