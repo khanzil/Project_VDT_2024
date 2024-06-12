@@ -1,10 +1,11 @@
 #include "sensors_config.h"
 
-void read_sensors(){
+bool read_sensors(){
     hum = dht.readHumidity();
     temp = dht.readTemperature();
     if (isnan(hum) || isnan(temp)) {
-    Serial.println(F("Failed to read from DHT sensor!"));
+      Serial.println(F("Failed to read from DHT sensor!"));
+      return false;
     }   
 
     if (lightMeter.measurementReady()) {
@@ -14,6 +15,7 @@ void read_sensors(){
     if(lux > LUX_THRESHOLD){
         digitalWrite(LED_PIN, LOW);
     } else digitalWrite(LED_PIN, HIGH);
+    return true;
 }
 
 void init_sensors(){			
