@@ -1,3 +1,5 @@
+#include "sensors_config.h"
+
 void read_sensors(){
     hum = dht.readHumidity();
     temp = dht.readTemperature();
