@@ -1,14 +1,14 @@
 #include "top_config.h"
 
 void setup() {
-    Serial.begin(115299);
-
+    Serial.begin(115200);
+    pinMode(LED_PIN,OUTPUT);
     init_system();
 }
 
 void loop () {
   update_data_payload();
-  COM_monitor();
+  // COM_monitor();
   thingsboard_communication();
   delay(10000);
 }
@@ -34,7 +34,8 @@ void thingsboard_communication(){
   
   if(millis() - tb_send_timming > TB_DURATION){        
     send_data_to_tb("v1/devices/me/telemetry", 5000);
-    tb_data_valid = false;;
+    request_control("getLightStatus", 5000);
+    tb_data_valid = false;
     tb_send_timming = millis();
   }
 }

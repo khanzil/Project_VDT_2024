@@ -4,7 +4,7 @@
 #define TXD 16 // PH
 #define PWR 5 // Nbmod wakeup pin
 
-#define SW_DEBUG 1
+#define SW_DEBUG 0
 HardwareSerial Nbmod(2);
 
 bool nbModStatus = false;
@@ -22,10 +22,10 @@ enum at_resp_enum {
 };
 
 // Thingsboard (TB or tb) stuffs
-String TB_DEVICE_KEY = "t6467N4PZ1Qgy6TJ4Vhu";
+String TB_DEVICE_KEY = "tbH6HkWJFFbMYVYRxXXh";
 #define TB_DURATION 10000 
 
-String tbServer = "mqtt.thingsboard.cloud";
+String tbServer = "demo.thingsboard.io";
 String tbPort = "1883";
 String data_payload = "";
 
