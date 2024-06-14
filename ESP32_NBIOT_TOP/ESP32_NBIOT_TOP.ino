@@ -34,7 +34,7 @@ void thingsboard_communication(){
   
   if(millis() - tb_send_timming > TB_DURATION){        
     send_data_to_tb("v1/devices/me/telemetry", 5000);
-    request_control("getLightStatus", 5000);
+    request_control("getLightStatus", 5000);  //request control signal to TB
     tb_data_valid = false;
     tb_send_timming = millis();
   }
