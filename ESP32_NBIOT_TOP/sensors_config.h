@@ -7,7 +7,7 @@
 
 #define LED_PIN 2
 #define DHTPIN 14
-#define DHTTYPE DHT11 
+#define DHTTYPE DHT22
 #define LUX_THRESHOLD 1000
 
 BH1750 lightMeter(0x23);
