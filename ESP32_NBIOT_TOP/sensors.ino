@@ -8,24 +8,24 @@ bool read_sensors(){
       return false;
     }   
 
-    if (lightMeter.measurementReady()) {
-        lux = lightMeter.readLightLevel();
-    }
+    // if (lightMeter.measurementReady()) {
+    //     lux = lightMeter.readLightLevel();
+    // }
 
-    if(lux > LUX_THRESHOLD){
-        digitalWrite(LED_PIN, LOW);
-    } else digitalWrite(LED_PIN, HIGH);
-    return true;
+    // if(lux > LUX_THRESHOLD){
+    //     digitalWrite(LED_PIN, LOW);
+    // } else digitalWrite(LED_PIN, HIGH);
+    // return true;
 }
 
 void init_sensors(){			
-    Wire.begin();
-    if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
-      Serial.println(F("BH1750 init OK"));
-    } 
-    else {
-      Serial.println(F("Error initialising BH1750"));
-    }
+    // Wire.begin();
+    // if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
+    //   Serial.println(F("BH1750 init OK"));
+    // } 
+    // else {
+    //   Serial.println(F("Error initialising BH1750"));
+    // }
 
     dht.begin();
     delay(50);

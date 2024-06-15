@@ -155,7 +155,7 @@ bool init_mqtt() {
 
 
     //Subcribe to MQTT
-    String at_submqtt = "AT+CMQSUB=0," + String("v1/devices/me/rpc/response/+,1") ;
+    String at_submqtt = "AT+CMQSUB=0," + String("\"v1/devices/me/rpc/response/+\",1") ;
     for (i = 0; i<5; i++){
       respond_code = send_atcmd(at_submqtt.c_str(),"OK",2000);
       if (respond_code != AT_RESP_OK) {
@@ -230,6 +230,7 @@ void switch_state_led(unsigned int timeout){
     delay(1000);
   } while (millis() - prev_time < timeout); 
 }
+
 void request_control(char * method, unsigned int timeout){
     char respond_code;
     unsigned long lasttime = millis();

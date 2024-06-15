@@ -13,7 +13,7 @@
 BH1750 lightMeter(0x23);
 DHT dht(DHTPIN, DHTTYPE);
 
-float lux;
+float lux = 566;
 float hum;
 float temp;
 
